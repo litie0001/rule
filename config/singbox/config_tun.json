@@ -24,7 +24,7 @@
   "dns": {
     "servers": [
       {"tag": "proxyDns", "address": "https://dns.google/dns-query", "address_resolver": "localDns", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择"},
-      {"tag": "localDns", "address": "192.168.99.12", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
+      {"tag": "localDns", "address": "192.168.99.12", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"}
     ],
     "rules": [
       { "outbound": "any", "server": "localDns" },
