@@ -25,10 +25,12 @@
     "servers": [
       {"tag": "proxyDns", "address": "https://dns.google/dns-query", "address_resolver": "localDns", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择"},
       {"tag": "localDns", "address": "192.168.99.12", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
-      {"tag": "fakeipDNS","address": "fakeip"}
+      {"tag": "fakeipDns","address": "fakeip"}
     ],
     "rules": [
       { "outbound": "any", "server": "localDns" },
+      { "clash_mode": "direct", "server": "localDns" },
+      { "clash_mode": "global", "server": "proxyDns" },
       { "query_type": "A", 
         "rule_set": [
                       "geosite-chat",
@@ -38,11 +40,9 @@
                       "geosite-telegram",
                       "geosite-gfw"
         ],
-        "server": "fakeipDNS",
+        "server": "fakeipDns",
         "rewrite_ttl": 10
       },
-      { "clash_mode": "direct", "server": "localDns" },
-      { "clash_mode": "global", "server": "proxyDns" },
       { "rule_set": "geosite-cn", "server": "localDns" },
       { "rule_set": "geosite-geolocation-!cn", "server": "proxyDns" }
     ],
