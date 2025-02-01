@@ -24,8 +24,7 @@
   "dns": {
     "servers": [
       {"tag": "proxyDns", "type": "https", "server": "dns.google", "domain_resolver": "localDns", "strategy": "ipv4_only", "detour": "🚀 节点选择", "client_subnet": "223.72.130.0/24"},
-      {"tag": "localDns", "type": "udp", "server": "192.168.99.12", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
-      {"tag": "fakeipDns", "type": "fakeip", "inet4_range": "198.18.0.0/15"}
+      {"tag": "localDns", "type": "udp", "server": "192.168.99.12", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"}
     ],
     "rules": [
       { "rule_set": "geosite-private", "server": "localDns" },
@@ -104,7 +103,6 @@
   "route": {
     "auto_detect_interface": true,
     "final": "🐠 漏网之鱼",
-    "default_domain_resolver": {"server": "localDns"},
     "rules": [
      {"action": "sniff"},
      {"protocol": "dns", "action": "hijack-dns"},
