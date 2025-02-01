@@ -23,7 +23,7 @@
   
   "dns": {
     "servers": [
-      {"tag": "proxyDns", "address": "https://dns.google/dns-query", "address_resolver": "localDns", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择"},
+      {"tag": "proxyDns", "address": "https://dns.google/dns-query", "address_resolver": "localDns", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择",  "client_subnet": "223.72.130.0/24"},
       {"tag": "localDns", "address": "192.168.99.12", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
       {"tag": "fakeipDns","address": "fakeip"}
     ],
@@ -47,7 +47,6 @@
       { "rule_set": "geosite-geolocation-!cn", "server": "proxyDns" },
       { "rule_set": "geosite-cn", "server": "localDns" }
     ],
-    "client_subnet": "223.72.130.0/24",
     "final": "proxyDns",
     "strategy": "ipv4_only",
     "fakeip": {"enabled": true, "inet4_range": "198.18.0.0/15"}
