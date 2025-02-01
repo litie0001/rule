@@ -46,8 +46,7 @@
       { "rule_set": "geosite-geolocation-!cn", "server": "proxyDns" },
       { "rule_set": "geosite-cn", "server": "localDns" }
     ],
-    "final": "proxyDns",
-    "strategy": "ipv4_only"
+    "final": "proxyDns"
   },
 
     "inbounds": [
