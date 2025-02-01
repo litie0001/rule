@@ -23,12 +23,12 @@
   
   "dns": {
     "servers": [
-      {"tag": "proxyDns", "type": "https", "server": "dns.google", "domain_resolver": "localDns", "detour": "🚀 节点选择", "client_subnet": "223.72.130.0/24"},
+      {"tag": "proxyDns", "type": "https", "server": "dns.google", "domain_resolver": "localDns", "detour": "🚀 节点选择"},
       {"tag": "localDns", "type": "udp", "server": "192.168.99.12", "detour": "🎯 全球直连"},
       {"tag": "fakeipDns", "type": "fakeip", "inet4_range": "198.18.0.0/15"}
     ],
     "rules": [
-      { "server": "proxyDns", "strategy": "ipv4_only" },
+      { "server": "proxyDns", "strategy": "ipv4_only", "client_subnet": "223.72.130.0/24" },
       { "server": "localDns", "strategy": "prefer_ipv4" },
       { "rule_set": "geosite-private", "server": "localDns" },
       { "clash_mode": "direct", "server": "localDns" },
