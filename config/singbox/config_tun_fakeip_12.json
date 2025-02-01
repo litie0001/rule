@@ -23,8 +23,8 @@
   
   "dns": {
     "servers": [
-      {"tag": "proxyDns", "type": "https", "server": "dns.google", "domain_resolver": "localDns", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择", "client_subnet": "223.72.130.0/24"},
-      {"tag": "localDns", "type": "udp", "server": "192.168.99.12", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
+      {"tag": "proxyDns", "type": "https", "server": "dns.google", "domain_resolver": "localDns", "strategy": "ipv4_only", "detour": "🚀 节点选择", "client_subnet": "223.72.130.0/24"},
+      {"tag": "localDns", "type": "udp", "server": "192.168.99.12", "strategy": "prefer_ipv4", "detour": "🎯 全球直连"},
       {"tag": "fakeipDns", "type": "fakeip", "inet4_range": "198.18.0.0/15"}
     ],
     "rules": [
