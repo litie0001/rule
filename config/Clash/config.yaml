@@ -58,7 +58,7 @@ sniffer:
   force-domain:
     - "+.v2ex.com"
   skip-domain:
-    - "rule-set:private_domain,cn_domain"
+    - "+.baidu.com"
 
 # 入站  
 tun:
