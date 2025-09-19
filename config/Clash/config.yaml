@@ -84,12 +84,12 @@ dns:
   fake-ip-filter:
     - "rule-set:ai,youtube_domain,google_domain,github_domain,telegram_domain,gfw_domain"
   default-nameserver:
-    - 192.168.99.20
+    - 192.168.99.20:6053
   proxy-server-nameserver:
-    - 192.168.99.20
+    - 192.168.99.20:6053
   # namesever尽量用运营商提供的DNS
   nameserver:
-    - 192.168.99.20
+    - 192.168.99.20:6053
  
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
@@ -125,15 +125,13 @@ proxy-groups:
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
   - {name: 🌐 全部节点, type: select, include-all: true}
 
-
 # 规则匹配
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
 rules:
-  - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,private_domain,直连
+  - RULE-SET,private_ip,直连,no-resolve
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理
   - RULE-SET,apple_domain,🍎 Apple
-  - RULE-SET,apple_ip,🍎 Apple,no-resolve
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
@@ -147,11 +145,12 @@ rules:
   - RULE-SET,netflix_domain,🎥 NETFLIX
   - RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,gfw_domain,🚀 默认代理
-  - RULE-SET,geolocation-!cn,🚀 默认代理
-  - RULE-SET,cn_domain,🎯 直连
+  - RULE-SET,apple_ip,🍎 Apple,no-resolve
   - RULE-SET,google_ip,🍀 Google,no-resolve
   - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - RULE-SET,geolocation-!cn,🚀 默认代理
+  - RULE-SET,cn_domain,🎯 直连
   - RULE-SET,cn_ip,🎯 直连
   - MATCH,🐟 漏网之鱼
 
@@ -178,7 +177,7 @@ rule-providers:
   gfw_domain: { <<: *domain, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
-
+  
   private_ip: {<<: *ip, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"}
   cn_ip: { <<: *ip, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
   google_ip: { <<: *ip, url: "https://ghproxy.cfd/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
