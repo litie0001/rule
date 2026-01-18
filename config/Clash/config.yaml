@@ -56,7 +56,8 @@ sniffer:
 tun:
   enable: true
   # system/gvisor/mixed
-  stack: mixed
+  stack: system
+  device: tun0
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
