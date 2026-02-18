@@ -110,11 +110,11 @@ proxy-groups:
   - {name: 🔯 日本故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
   - {name: 🔯 狮城故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
   - {name: 🔯 美国故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
-  - {name: ♻️ 智能选择, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "^((?!(直连)).)*$"}
-  - {name: ♻️ 香港智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: ♻️ 日本智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$" }
-  - {name: ♻️ 狮城智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$" }
-  - {name: ♻️ 美国智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: ♻️ 智能选择, type: smart, uselightgbm: false, collectdata: true, include-all: true, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: ♻️ 香港智能, type: smart, uselightgbm: false, collectdata: true, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: ♻️ 日本智能, type: smart, uselightgbm: false, collectdata: true, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$" }
+  - {name: ♻️ 狮城智能, type: smart, uselightgbm: false, collectdata: true, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$" }
+  - {name: ♻️ 美国智能, type: smart, uselightgbm: false, collectdata: true, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
   - {name: 🌐 全部节点, type: select, include-all: true}
 
@@ -123,8 +123,9 @@ proxy-groups:
 rules:
   - RULE-SET,private_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
-  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_domain))),REJECT
-  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_ip))),REJECT
+  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(RULE-SET,cn_domain),直连
+  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(RULE-SET,cn_ip),直连
+  - AND,(DST-PORT,443),(NETWORK,UDP),REJECT
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,proxylite,🚀 默认代理
