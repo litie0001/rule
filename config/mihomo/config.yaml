@@ -123,8 +123,9 @@ proxy-groups:
 rules:
   - RULE-SET,private_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
-  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_domain))),REJECT
-  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,cn_ip))),REJECT
+  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(RULE-SET,cn_domain),直连
+  - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(RULE-SET,cn_ip),直连
+  - AND,(DST-PORT,443),(NETWORK,UDP),REJECT
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,proxylite,🚀 默认代理
