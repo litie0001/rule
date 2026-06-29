@@ -3,12 +3,7 @@
     {
       "type": "remote",
       "tag": "A1",
-      "health_check": {
-          "enabled": true,
-          "url": "https://www.gstatic.com/generate_204",
-          "interval": "5m",
-          "timeout": "3s"
-      },
+	  "health_check": {"enabled":true,"url":"https://www.gstatic.com/generate_204","interval":"5m","timeout":"3s"},
       "url": "http://192.168.99.20:3001/GYwURuzgPb4RpWbAALF8/download/collection/sub-store",
       "exclude": "官网|剩余|流量|套餐|免费|订阅|全球直连|到期时间|GB|Expire Date|Traffic|ExpireDate",
       "download_detour": "🎯 全球直连",
@@ -26,7 +21,7 @@
       {"rule_set": "ad_domain", "action": "predefined", "rcode": "NOERROR"},
       {"clash_mode": "direct", "server": "public"},
       {"clash_mode": "global", "server": "fakeip"},
-      {"query_type": "HTTPS", "action": "predefined", "rcode": "NOERROR"},
+      {"query_type": ["HTTPS", "SVCB"], "action": "reject"},
       {"query_type": ["A", "AAAA"], 
         "rule_set": [
                       "geosite-ai",
@@ -71,30 +66,15 @@
     {"tag": "♻️ 自动选择", "type": "urltest", "outbounds": null, "fallback": { "enabled": true, "max_delay": "200ms" }, "use_all_providers": true, "interval": "5m","exclude":"网站|流量|地址|剩余|过期|免费|时间|有效|Traffic|ExpireDate|GB|Expire Date"},
     {"tag": "🍃 延迟辅助", "type": "urltest", "outbounds": ["🚀 默认代理", "🎯 全球直连"]},
     {"tag": "GLOBAL", "type": "selector", "outbounds": ["🚀 默认代理", "🤖 AI", "📹 YouTube", "🍀 Google", "👨‍💻 Github", "📲 Telegram", "🎵 TikTok", "🎥 Netflix", "💶 PayPal", "🎮 Steam", "🪟 Microsoft", "🐬 OneDrive", "🍎 Apple", "🐠 漏网之鱼", "🇭🇰 香港手动", "🇯🇵 日本手动", "🇸🇬 狮城手动", "🇺🇲 美国手动", "🖱 手动选择", "♻️ 自动选择", "🍃 延迟辅助", "🎯 全球直连"]},
-    {"tag": "🎯 全球直连", "type": "direct"}
+    {"tag": "🎯 全球直连", "type": "direct", "domain_resolver": "public"}
   ],
   "route": {
     "rules": [
-      {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
-      {"inbound": "dns-in", "action": "hijack-dns"},
       {"rule_set": "ad_domain", "action": "reject"},
-      {
-          "type": "logical",
-          "mode": "and",
-          "rules": [
-            {
-              "protocol": "quic"
-            },
-            {
-              "rule_set": [
-                "geoip-cn",
-                "geosite-cn"
-              ],
-              "invert": true
-            }
-          ],
-          "action": "reject"
-        },
+      {"type": "logical", "mode": "or", "rules": [{"domain": "Mijia Cloud"}, {"domain_suffix": "push.apple.com"}, {"rule_set": "geoip-telegram"}], "invert": true, "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "500ms"},
+      {"inbound": "dns-in", "action": "hijack-dns"},
+      {"type": "logical", "mode": "or", "rules": [{"port": 853}, {"protocol": "stun"}], "action": "reject"},
+      {"type": "logical", "mode": "and", "rules": [{"protocol": "quic"}, {"rule_set": "geosite-!cn"}], "action": "reject"},
       {"ip_is_private": true, "outbound": "🎯 全球直连"},
       {"clash_mode": "direct", "outbound": "🎯 全球直连"},
       {"clash_mode": "global", "outbound": "GLOBAL"},
