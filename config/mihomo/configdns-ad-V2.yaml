@@ -65,6 +65,10 @@ tun:
     - cn_ip
 
 # DNS模块
+hosts:
+  dns.alidns.com: ['2400:3200::1', '2400:3200:baba::1']
+  doh.pub: [1.12.12.12, 120.53.53.53]
+
 cndns: &cndns
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
