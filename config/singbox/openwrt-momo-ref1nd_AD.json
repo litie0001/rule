@@ -13,10 +13,10 @@
   "dns": {
     "servers": [
       {"tag": "local", "type": "local", "prefer_go": true},
-      {"tag": "hosts", "type": "hosts", "predefined": {"dns.alidns.com": ["223.5.5.5","223.6.6.6"]}},
+      {"tag": "hosts", "type": "hosts", "predefined": {"dns.alidns.com": ["2400:3200::1","2400:3200:baba::1"]}},
       {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "hosts"},
       {"tag": "foreign", "type": "https", "server": "8.8.8.8", "detour": "🚀 默认代理"},
-      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "2001:db8::/32"}
     ],
     "rules": [
       {"rule_set": "ad_domain", "action": "reject"},
@@ -36,7 +36,8 @@
         "rewrite_ttl": 1
       },
       {"rule_set": "geosite-!cn", "server": "foreign", "strategy": "ipv4_only"},
-      {"rule_set": "geosite-cn", "server": "public"}
+      {"rule_set": "geosite-cn", "server": "public"},
+      {"query_type": ["A", "AAAA"], "server": "foreign", "strategy": "ipv4_only"}
     ],
     "final": "foreign",
     "client_subnet": "223.72.130.0/24",
