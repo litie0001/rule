@@ -13,13 +13,25 @@
   "dns": {
     "servers": [
       {"tag": "homedns", "type": "udp", "server": "192.168.99.20", "server_port": 6053},
-      {"tag": "fakeip", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "2001:db8::/32"}
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "28.0.0.1/8"}
     ],
     "rules": [
       {"rule_set": "ad_domain", "action": "reject"},
       {"query_type": ["HTTPS", "SVCB"], "action": "reject"},
       {"clash_mode": "direct", "server": "homedns"},
-      {"clash_mode": "global", "server": "fakeip"}
+      {"clash_mode": "global", "server": "fakeip"},
+      {"query_type": ["A", "AAAA"], 
+        "rule_set": [
+                      "geosite-ai",
+                      "geosite-youtube",
+                      "geosite-google",
+                      "geosite-github",
+                      "geosite-telegram",
+                      "geosite-gfw"
+        ],
+        "server": "fakeip",
+        "rewrite_ttl": 1
+      },      
     ],
     "final": "homedns",
     "strategy": "prefer_ipv4",
