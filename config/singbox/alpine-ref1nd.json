@@ -128,7 +128,7 @@
     ],
     "final": "🐠 漏网之鱼",
     "auto_detect_interface": true,
-    "default_domain_resolver": "public"}
+    "default_domain_resolver": "public"
   },
   "inbounds": [
     {
