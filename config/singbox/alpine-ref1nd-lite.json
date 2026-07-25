@@ -13,14 +13,14 @@
   "dns": {
     "servers": [
       {"tag": "homedns", "type": "udp", "server": "192.168.99.20", "server_port": 6053},
-      {"tag": "fakeip", "type": "fakeip", "inet4_range": "28.0.0.1/8"}
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.19.0.0/16"}
     ],
     "rules": [
       {"rule_set": "ad_domain", "action": "reject"},
       {"query_type": ["HTTPS", "SVCB"], "action": "reject"},
       {"clash_mode": "direct", "server": "homedns"},
       {"clash_mode": "global", "server": "fakeip"},
-      {"query_type": ["A", "AAAA"], 
+      {"query_type": ["A", "AAAA"],
         "rule_set": [
                       "geosite-ai",
                       "geosite-youtube",
@@ -31,7 +31,7 @@
         ],
         "server": "fakeip",
         "rewrite_ttl": 1
-      },      
+      },
     ],
     "final": "homedns",
     "strategy": "prefer_ipv4",
@@ -65,10 +65,12 @@
   "route": {
     "rules": [
       {"rule_set": "ad_domain", "action": "reject"},
-      {"type": "logical", "mode": "or", "rules": [{"domain": "Mijia Cloud"}, {"domain_suffix": "push.apple.com"}, {"rule_set": "geoip-telegram"}], "invert": true, "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "100ms"},
+      {"type": "logical", "mode": "and", "rules": [{"port": [53, 853], "invert": true}, {"clash_mode": "Global", "invert": true}, {"type": "logical", "mode": "or", "rules": [{"ip_is_private": true}, {"rule_set": "geoip-cn"}]}], "action": "bypass"},
+      {"type": "logical", "mode": "or", "rules": [{"domain_suffix": "push.apple.com"}, {"rule_set": "geoip-telegram"}], "invert": true, "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "100ms"},
       {"type": "logical", "mode": "or", "rules": [{"port": 53}, {"protocol": "dns"}], "action": "hijack-dns"},
-      {"type": "logical", "mode": "or", "rules": [{"port": 853}, {"protocol": "stun"}], "action": "reject"},
-      {"type": "logical", "mode": "and", "rules": [{"protocol": "quic"}, {"rule_set": "geosite-!cn"}], "action": "reject"},
+      {"type": "logical", "mode": "or", "rules": [{"port": 853}, {"protocol": ["stun", "quic"]}], "action": "reject", "no_drop": true},
+      {"network": "icmp", "action": "resolve"},
+      {"network": "icmp", "outbound": "🎯 全球直连"},
       {"ip_is_private": true, "outbound": "🎯 全球直连"},
       {"clash_mode": "direct", "outbound": "🎯 全球直连"},
       {"clash_mode": "global", "outbound": "GLOBAL"},
@@ -129,7 +131,7 @@
       "type": "tun",
       "interface_name": "tun0",
       "address": [
-        "172.31.0.1/30",
+        "172.19.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
       "mtu": 9000,
