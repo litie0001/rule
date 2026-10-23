@@ -1,0 +1,169 @@
+# 机场订阅
+proxy-providers:
+  Airport1:
+    url: "http://192.168.99.20:3001/GYwURuzgPb4RpWbAALF8/download/collection/sub-store"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: 直连
+
+# 节点信息
+proxies:
+  - {name: 直连, type: direct}
+
+# 全局配置
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+ipv6: true
+unified-delay: true
+tcp-concurrent: true
+log-level: warning
+keep-alive-idle: 600
+keep-alive-interval: 15
+
+# GEO 数据文件
+geodata-mode: true
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 72
+geox-url:
+  geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# 控制面板
+external-controller: 0.0.0.0:9098
+secret: ""
+external-ui: ui
+external-ui-name: zashboard
+external-ui-url: "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+
+# 嗅探
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+
+# 入站
+tun:
+  enable: true
+  # system/gvisor/mixed
+  stack: system
+  device: tun0
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  route-exclude-address-set:
+    - cn_ip
+
+# DNS模块
+dns:
+  enable: true
+  cache-algorithm: arc
+  listen: 0.0.0.0:1053
+  ipv6: true
+  respect-rules: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.0/16
+  fake-ip-filter-mode: whitelist
+  fake-ip-filter:
+    - "geosite:category-ai-!cn"
+    - "geosite:youtube"
+    - "geosite:google"
+    - "geosite:github"
+    - "geosite:telegram"
+    - "geosite:gfw"
+  default-nameserver:
+    - 192.168.99.20:6053
+  proxy-server-nameserver:
+    - 192.168.99.20:6053
+  nameserver:
+    - 192.168.99.20:6053
+
+# 出站策略 smart参数（uselightgbm: false, collectdata: false, strategy: sticky-sessions, policy-priority: "Premium:0.9;SG:1.3"）
+proxy-groups:
+  - {name: 🚀 默认代理, type: select, proxies: [♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 📹 YouTube, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 美国故转, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, ♻️ 美国智能, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🍀 Google, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🤖 AI, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 👨🏿‍💻 GitHub, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🐬 OneDrive, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🪟 Microsoft, type: select, proxies: [直连, 🚀 默认代理, ♻️ 智能选择, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点]}
+  - {name: 🎵 TikTok, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 📲 Telegram, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🎥 NETFLIX, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 狮城故转, 🔯 香港故转, 🔯 日本故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: ✈️ Speedtest, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 💶 PayPal, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 日本故转, 🔯 香港故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🍎 Apple, type: select, proxies: [直连, 🚀 默认代理]}
+  - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 默认代理, ♻️ 智能选择, 🔯 香港故转, 🔯 日本故转, 🔯 狮城故转, 🔯 美国故转, ♻️ 香港智能, ♻️ 日本智能, ♻️ 狮城智能, ♻️ 美国智能, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 狮城节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+  - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
+  - {name: 🇸🇬 狮城节点, type: select, include-all: true, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
+  - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
+  - {name: 🔯 香港故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: 🔯 日本故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
+  - {name: 🔯 狮城故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
+  - {name: 🔯 美国故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: ♻️ 智能选择, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: ♻️ 香港智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: ♻️ 日本智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$"}
+  - {name: ♻️ 狮城智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$"}
+  - {name: ♻️ 美国智能, type: smart, uselightgbm: true, collectdata: false, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: 🌐 全部节点, type: select, include-all: true}
+
+# 规则匹配
+rules:
+  - GEOSITE,private,直连
+  - GEOIP,private,直连,no-resolve
+  - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,CN))),(NOT,((GEOIP,CN)))),REJECT
+  - GEOSITE,apple,🍎 Apple
+  - RULE-SET,proxylite,🚀 默认代理
+  - GEOSITE,category-ai-!cn,🤖 AI
+  - GEOSITE,github,👨🏿‍💻 GitHub
+  - GEOSITE,youtube,📹 YouTube
+  - GEOSITE,google,🍀 Google
+  - GEOSITE,onedrive,🐬 OneDrive
+  - GEOSITE,microsoft,🪟 Microsoft
+  - GEOSITE,tiktok,🎵 TikTok
+  - GEOSITE,ookla-speedtest,✈️ Speedtest
+  - GEOSITE,telegram,📲 Telegram
+  - GEOSITE,netflix,🎥 NETFLIX
+  - GEOSITE,paypal,💶 PayPal
+  - GEOSITE,gfw,🚀 默认代理
+  - RULE-SET,apple_ip,🍎 Apple
+  - GEOIP,google,🍀 Google
+  - GEOIP,netflix,🎥 NETFLIX
+  - GEOIP,telegram,📲 Telegram
+  - GEOSITE,geolocation-!cn,🚀 默认代理
+  - GEOSITE,CN,直连
+  - GEOIP,CN,直连
+  - MATCH,🐟 漏网之鱼
+
+# 规则集：只保留 Geo 数据库未覆盖或有特殊用途的规则集
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+rule-providers:
+  proxylite: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/litie0001/rule@master/rules/proxy.list" }
+  # geoip.dat 不含 Apple 专用 IP 分类，继续使用原 MRS
+  apple_ip: { <<: *ip, url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo-lite/geoip/apple.mrs" }
+  # TUN route-exclude-address-set 需要 CIDR 规则集，继续保留 cn_ip
+  cn_ip: { <<: *ip, url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs" }
