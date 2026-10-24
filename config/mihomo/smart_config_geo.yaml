@@ -134,13 +134,15 @@ rules:
   - GEOSITE,private,直连
   - GEOIP,private,直连,no-resolve
   - AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,CN))),(NOT,((GEOIP,CN)))),REJECT
-  - GEOSITE,apple,🍎 Apple
   - RULE-SET,proxylite,🚀 默认代理
   - GEOSITE,category-ai-!cn,🤖 AI
-  - GEOSITE,github,👨🏿‍💻 GitHub
+  - GEOSITE,apple@cn,直连
+  - GEOSITE,apple,🍎 Apple
   - GEOSITE,youtube,📹 YouTube
   - GEOSITE,google,🍀 Google
+  - GEOSITE,github,👨🏿‍💻 GitHub
   - GEOSITE,onedrive,🐬 OneDrive
+  - GEOSITE,microsoft@cn,直连
   - GEOSITE,microsoft,🪟 Microsoft
   - GEOSITE,tiktok,🎵 TikTok
   - GEOSITE,ookla-speedtest,✈️ Speedtest
